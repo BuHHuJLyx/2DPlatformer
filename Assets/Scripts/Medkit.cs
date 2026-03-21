@@ -2,17 +2,18 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Medkit : MonoBehaviour
 {
-    [SerializeField] private float _coinLife = 30f;
+    [SerializeField] private float _medkitLife = 15f;
+    [SerializeField] private int _healAmount = 25;
     
     private WaitForSeconds _lifeDelay;
     
-    public Action<Coin> Collected;
+    public Action<Medkit> Collected;
 
     private void Awake()
     {
-        _lifeDelay = new WaitForSeconds(_coinLife);
+        _lifeDelay = new WaitForSeconds(_medkitLife);
     }
 
     public void Activate(Vector3 position)
@@ -28,7 +29,7 @@ public class Coin : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Player player))
         {
-            player.AddCoin();
+            player.Heal(_healAmount);
             Collected?.Invoke(this);
         }
     }
