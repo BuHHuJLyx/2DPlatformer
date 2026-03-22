@@ -14,7 +14,7 @@ public class Attacker : MonoBehaviour
 
     public void Attack()
     {
-        if (!CanAttack)
+        if (CanAttack == false)
             return;
 
         _lastAttackTime = Time.time;

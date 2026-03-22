@@ -7,8 +7,8 @@ public class InputReader : MonoBehaviour
     [SerializeField] private KeyCode _jumpKey = KeyCode.Space;
     [SerializeField] private KeyCode _attackKey  = KeyCode.F;
     
-    public event Action JumpPressed;
-    public event Action AttackPressed;
+    private bool _isJump;
+    private bool _isAttack;
     
     public float Move { get; private set; }
 
@@ -17,9 +17,20 @@ public class InputReader : MonoBehaviour
         Move = Input.GetAxisRaw(_horizontalAxis);
 
         if (Input.GetKeyDown(_jumpKey))
-            JumpPressed?.Invoke();
+            _isJump = true;
         
         if (Input.GetKeyDown(_attackKey))
-            AttackPressed?.Invoke();
+            _isAttack = true;
+    }
+    
+    public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
+    
+    public bool GetIsAttack() => GetBoolAsTrigger(ref _isAttack);
+    
+    private bool GetBoolAsTrigger(ref bool value)
+    {
+        bool localValue = value;
+        value = false;
+        return localValue;
     }
 }

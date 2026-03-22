@@ -4,16 +4,16 @@ using UnityEngine;
 public class CoinUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _coinText;
-    [SerializeField] private Player _player;
+    [SerializeField] private Wallet _wallet;
 
     private void OnEnable()
     {
-        _player.CoinCollected += UpdateText;
+        _wallet.CoinCollected += UpdateText;
     }
 
     private void OnDisable()
     {
-        _player.CoinCollected -= UpdateText;
+        _wallet.CoinCollected -= UpdateText;
     }
 
     private void UpdateText(int coins)

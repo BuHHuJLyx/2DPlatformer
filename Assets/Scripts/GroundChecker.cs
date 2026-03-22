@@ -2,23 +2,17 @@ using UnityEngine;
 
 public class GroundChecker : MonoBehaviour
 {
-    private bool _isGrounded;
-    
-    public bool IsGrounded => _isGrounded;
+    public bool IsGround { get; private set; }
     
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.TryGetComponent<Platform>(out _))
-        {
-            _isGrounded = true;
-        }
+            IsGround = true;
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.TryGetComponent<Platform>(out _))
-        {
-            _isGrounded = false;
-        }
+            IsGround = false;
     }
 }

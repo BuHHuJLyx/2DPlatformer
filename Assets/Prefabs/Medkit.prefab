@@ -151,5 +151,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8fe3100f8e63b44b7b85294e327419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Medkit
-  _medkitLife: 15
+  _lifeTime: 15
   _healAmount: 25
