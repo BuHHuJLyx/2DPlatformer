@@ -10,6 +10,9 @@ public class Medkit : MonoBehaviour
     private WaitForSeconds _lifeDelay;
     
     public Action<Medkit> Collected;
+    public Action<Medkit> Expired;
+    
+    public int HealAmount => _healAmount;
 
     private void Awake()
     {
@@ -22,21 +25,17 @@ public class Medkit : MonoBehaviour
         
         gameObject.SetActive(true);
 
-        StartCoroutine(Life());
+        StartCoroutine(DelayedReturn());
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void Collect()
     {
-        if (other.gameObject.TryGetComponent(out Player player))
-        {
-            player.Heal(_healAmount);
-            Collected?.Invoke(this);
-        }
+        Collected?.Invoke(this);
     }
 
-    private IEnumerator Life()
+    private IEnumerator DelayedReturn()
     {
         yield return _lifeDelay;
-        Collected?.Invoke(this);
+        Expired?.Invoke(this);
     }
 }

@@ -1,52 +1,58 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Animator), typeof(Health))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator), typeof(InputReader))]
+[RequireComponent(typeof(Health), typeof(Attacker), typeof(GroundChecker))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private InputReader _input;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce = 10f;
-    
-    [SerializeField] private int _attackDamage = 15;
-    [SerializeField] private float _attackRange = 1.5f;
+
+    public static readonly int Speed = Animator.StringToHash(nameof(Speed));
+    public static readonly int YVelocity = Animator.StringToHash(nameof(YVelocity));
+    public static readonly int IsGrounded = Animator.StringToHash(nameof(IsGrounded));
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
+    private InputReader _input;
     private Health _health;
-    private bool _isGrounded;
-    
+    private Attacker _attacker;
+    private GroundChecker _groundChecker;
+
     public event Action<int> CoinCollected;
-    
+
     public int Coins { get; private set; }
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _input = GetComponent<InputReader>();
         _health = GetComponent<Health>();
+        _attacker = GetComponent<Attacker>();
+        _groundChecker = GetComponent<GroundChecker>();
     }
 
     private void OnEnable()
     {
         _input.JumpPressed += Jump;
-        _input.AttackPressed += Attack;
+        _input.AttackPressed += _attacker.Attack;
         _health.Died += Die;
     }
 
     private void Update()
     {
-        _animator.SetFloat("Speed", Mathf.Abs(_rigidbody.linearVelocity.x));
-        _animator.SetFloat("YVelocity", _rigidbody.linearVelocity.y);
-        _animator.SetBool("IsGrounded", _isGrounded);
+        _animator.SetFloat(Speed, Mathf.Abs(_rigidbody.linearVelocity.x));
+        _animator.SetFloat(YVelocity, _rigidbody.linearVelocity.y);
+        _animator.SetBool(IsGrounded, _groundChecker.IsGrounded);
 
         Move();
     }
-    
+
     private void OnDisable()
     {
         _input.JumpPressed -= Jump;
-        _input.AttackPressed -= Attack;
+        _input.AttackPressed -= _attacker.Attack;
         _health.Died -= Die;
     }
 
@@ -55,26 +61,10 @@ public class Player : MonoBehaviour
         Coins++;
         CoinCollected?.Invoke(Coins);
     }
-    
+
     public void Heal(int amount)
     {
         _health.Heal(amount);
-    }
-    
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.TryGetComponent<Platform>(out _))
-        {
-            _isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.TryGetComponent<Platform>(out _))
-        {
-            _isGrounded = false;
-        }
     }
 
     private void Move()
@@ -83,34 +73,18 @@ public class Player : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         else if (_input.Move < 0)
             transform.localScale = new Vector3(-1, 1, 1);
-        
+
         _rigidbody.linearVelocity = new Vector2(_input.Move * _moveSpeed, _rigidbody.linearVelocity.y);
     }
 
     private void Jump()
     {
-        if (_isGrounded)
+        if (_groundChecker.IsGrounded)
         {
             _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
         }
     }
 
-    private void Attack()
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attackRange);
-
-        foreach (var hit in hits)
-        {
-            if (hit.TryGetComponent<Enemy>(out _))
-            {
-                if (hit.TryGetComponent<Health>(out var health))
-                {
-                    health.TakeDamage(_attackDamage);
-                }
-            }
-        }
-    }
-    
     private void Die()
     {
         enabled = false;

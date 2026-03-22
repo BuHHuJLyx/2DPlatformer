@@ -107,6 +107,10 @@ GameObject:
   - component: {fileID: 8421185114857750846}
   - component: {fileID: 8817714687243280072}
   - component: {fileID: 9101211360198855832}
+  - component: {fileID: 9157785001511399208}
+  - component: {fileID: 6648196999145369062}
+  - component: {fileID: 7169510735035193703}
+  - component: {fileID: 6957370784754934544}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -287,11 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f160db8f504ad044bbf8df3761517889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  _input: {fileID: 0}
   _moveSpeed: 5
   _jumpForce: 10
-  _attackDamage: 15
-  _attackRange: 1.5
 --- !u!114 &9101211360198855832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,3 +306,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   _maxHealth: 100
+--- !u!114 &9157785001511399208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7113716125733663977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37eaee7801f382c41a232dafda22f1be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputReader
+  _horizontalAxis: Horizontal
+  _jumpKey: 32
+  _attackKey: 102
+--- !u!114 &6648196999145369062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7113716125733663977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5083f4a3c1aa0894ba93332169d53559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Attacker
+  _attackDamage: 15
+  _attackRange: 1.5
+  _attackCooldown: 0
+--- !u!114 &7169510735035193703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7113716125733663977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b4f11cd48ad6545978d35e327d6a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundChecker
+--- !u!114 &6957370784754934544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7113716125733663977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a54f0901100c449afc7a231a38dde4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Collector

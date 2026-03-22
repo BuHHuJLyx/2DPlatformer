@@ -9,6 +9,7 @@ public class Coin : MonoBehaviour
     private WaitForSeconds _lifeDelay;
     
     public Action<Coin> Collected;
+    public Action<Coin> Expired;
 
     private void Awake()
     {
@@ -21,21 +22,17 @@ public class Coin : MonoBehaviour
         
         gameObject.SetActive(true);
 
-        StartCoroutine(Life());
+        StartCoroutine(DelayedReturn());
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void Collect()
     {
-        if (other.gameObject.TryGetComponent(out Player player))
-        {
-            player.AddCoin();
-            Collected?.Invoke(this);
-        }
+        Collected?.Invoke(this);
     }
 
-    private IEnumerator Life()
+    private IEnumerator DelayedReturn()
     {
         yield return _lifeDelay;
-        Collected?.Invoke(this);
+        Expired?.Invoke(this);
     }
 }

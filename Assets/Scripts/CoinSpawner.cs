@@ -38,6 +38,7 @@ public class CoinSpawner : MonoBehaviour
         coin.Activate(spawnPoint.Position);
 
         coin.Collected += ReturnCoin;
+        coin.Expired += ReturnCoin;
     }
 
     private CoinSpawnPoint GetRandomSpawnPoint()
@@ -54,6 +55,7 @@ public class CoinSpawner : MonoBehaviour
     private void ReturnCoin(Coin coin)
     {
         coin.Collected -= ReturnCoin;
+        coin.Expired -= ReturnCoin;
         _pool.Release(coin);
     }
 

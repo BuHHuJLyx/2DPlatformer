@@ -37,6 +37,7 @@ public class MedkitSpawner : MonoBehaviour
         medkit.Activate(spawnPoint.Position);
 
         medkit.Collected += ReturnMedkit;
+        medkit.Expired += ReturnMedkit;
     }
 
     private MedkitSpawnPoint GetRandomSpawnPoint()
@@ -53,6 +54,7 @@ public class MedkitSpawner : MonoBehaviour
     private void ReturnMedkit(Medkit medkit)
     {
         medkit.Collected -= ReturnMedkit;
+        medkit.Expired -= ReturnMedkit;
         _pool.Release(medkit);
     }
 

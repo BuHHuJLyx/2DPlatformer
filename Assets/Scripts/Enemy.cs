@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Health))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Health), typeof(Attacker))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 3f;
@@ -10,22 +10,19 @@ public class Enemy : MonoBehaviour
     
     [SerializeField] private Player _player;
     [SerializeField] private float _detectionRange = 5f;
-    
-    [SerializeField] private int _attackDamage = 20;
-    [SerializeField] private float _attackRange = 3f;
-    [SerializeField] private float _attackCooldown = 1f;
-    
-    private float _lastAttackTime;
+
     private float _direction = 1f;
     private bool _isChasing;
     
     private Rigidbody2D _rigidbody;
     private Health _health;
+    private Attacker _attacker;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _health = GetComponent<Health>();
+        _attacker = GetComponent<Attacker>();
     }
 
     private void OnEnable()
@@ -44,8 +41,8 @@ public class Enemy : MonoBehaviour
         
         if (_isChasing)
         {
-            if (distance < _attackRange)
-                Attack();
+            if (_attacker.CanAttack && distance < _attacker.AttackRange)
+                _attacker.Attack();
             else 
                 Chase();
         }
@@ -85,22 +82,6 @@ public class Enemy : MonoBehaviour
     {
         _direction *= -1;
         transform.localScale = new Vector3(_direction, 1, 1);
-    }
-    
-    private void Attack()
-    {
-        if (Vector2.Distance(transform.position, _player.transform.position) < _attackRange)
-        {
-            if (Time.time >= _lastAttackTime + _attackCooldown)
-            {
-                _lastAttackTime = Time.time;
-
-                if (_player.TryGetComponent<Health>(out var health))
-                {
-                    health.TakeDamage(_attackDamage);
-                }
-            }
-        }
     }
 
     private void Die()

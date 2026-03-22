@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
+    [SerializeField] private string _horizontalAxis = "Horizontal";
+    [SerializeField] private KeyCode _jumpKey = KeyCode.Space;
+    [SerializeField] private KeyCode _attackKey  = KeyCode.F;
+    
     public event Action JumpPressed;
     public event Action AttackPressed;
     
@@ -10,12 +14,12 @@ public class InputReader : MonoBehaviour
 
     private void Update()
     {
-        Move = Input.GetAxisRaw("Horizontal");
+        Move = Input.GetAxisRaw(_horizontalAxis);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(_jumpKey))
             JumpPressed?.Invoke();
         
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(_attackKey))
             AttackPressed?.Invoke();
     }
 }
