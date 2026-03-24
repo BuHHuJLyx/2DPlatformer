@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
+    [SerializeField] private GameObject _attackEffectPrefab;
+    [SerializeField] private Transform _attackPoint;
+    
     [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackCooldown;
@@ -19,7 +22,9 @@ public class Attacker : MonoBehaviour
 
         _lastAttackTime = Time.time;
         
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _attackRange);
+        SpawnEffect();
+        
+        Collider2D[] hits = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange);
 
         foreach (var hit in hits)
         {
@@ -29,5 +34,10 @@ public class Attacker : MonoBehaviour
             if (hit.TryGetComponent<Health>(out var health))
                 health.TakeDamage(_attackDamage);
         }
+    }
+
+    private void SpawnEffect()
+    {
+        GameObject effect = Instantiate(_attackEffectPrefab, _attackPoint.position, Quaternion.identity);
     }
 }
