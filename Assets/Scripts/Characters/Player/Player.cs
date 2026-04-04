@@ -2,16 +2,16 @@ using UnityEngine;
 
 [RequireComponent(typeof(InputReader), typeof(PlayerAnimator), typeof(PlayerMover))]
 [RequireComponent(typeof(Health), typeof(Attacker),  typeof(Collector))]
+[RequireComponent(typeof(Wallet))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Wallet _wallet;
-    
     private InputReader _input;
     private PlayerAnimator _animator;
     private PlayerMover _mover;
     private Health _health;
     private Attacker _attacker;
     private Collector _collector;
+    private Wallet _wallet;
 
     private void Awake()
     {
@@ -21,13 +21,14 @@ public class Player : MonoBehaviour
         _health = GetComponent<Health>();
         _attacker = GetComponent<Attacker>();
         _collector = GetComponent<Collector>();
+        _wallet = GetComponent<Wallet>();
     }
 
     private void OnEnable()
     {
         _collector.CoinCollected += AddCoin;
         _collector.MedkitCollected += Heal;
-        _health.Died += Die;
+        _health.Depleted += Die;
     }
 
     private void Update()
@@ -52,7 +53,7 @@ public class Player : MonoBehaviour
     {
         _collector.CoinCollected -= AddCoin;
         _collector.MedkitCollected -= Heal;
-        _health.Died -= Die;
+        _health.Depleted -= Die;
     }
     
     public void AddCoin(Coin  coin)
@@ -62,7 +63,7 @@ public class Player : MonoBehaviour
     
     public void Heal(Medkit  medkit)
     {
-        _health.Heal(medkit.HealAmount);
+        _health.ExcuteHeal(medkit.HealAmount);
     }
     
     private void Die()

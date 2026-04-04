@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.Died += Die;
+        _health.Depleted += Die;
     }
 
     private void Update()
@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
 
     private void OnDisable()
     {
-        _health.Died -= Die;
+        _health.Depleted -= Die;
     }
 
     private void Die()
