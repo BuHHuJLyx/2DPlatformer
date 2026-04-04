@@ -1,12 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(InputReader), typeof(PlayerAnimator), typeof(PlayerMover))]
-[RequireComponent(typeof(Health), typeof(Attacker),  typeof(Collector))]
-[RequireComponent(typeof(Wallet))]
+[RequireComponent(typeof(InputReader), typeof(PlayerMover))]
+[RequireComponent(typeof(Health), typeof(Attacker))]
+[RequireComponent(typeof(Collector), typeof(Wallet))]
 public class Player : MonoBehaviour
 {
+    [SerializeField] private PlayerAnimator _animator;
+    
     private InputReader _input;
-    private PlayerAnimator _animator;
     private PlayerMover _mover;
     private Health _health;
     private Attacker _attacker;
@@ -16,7 +17,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _input = GetComponent<InputReader>();
-        _animator = GetComponent<PlayerAnimator>();
         _mover = GetComponent<PlayerMover>();
         _health = GetComponent<Health>();
         _attacker = GetComponent<Attacker>();

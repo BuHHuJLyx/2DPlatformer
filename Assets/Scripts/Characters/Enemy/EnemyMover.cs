@@ -1,17 +1,17 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Rotator))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 3f;
     
+    [SerializeField] private Rotator _rotator;
+    
     private Rigidbody2D _rigidbody;
-    private Rotator _rotator;
     
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _rotator = GetComponent<Rotator>();
     }
     
     public void Move(float direction)

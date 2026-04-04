@@ -18,6 +18,6 @@ public class CoinUI : MonoBehaviour
 
     private void UpdateText(int coins)
     {
-        _coinText.text = "Монет: " + coins;
+        _coinText.text = coins.ToString();
     }
 }

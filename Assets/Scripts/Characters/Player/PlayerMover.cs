@@ -1,14 +1,15 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(GroundChecker),  typeof(Rotator))]
+[RequireComponent(typeof(Rigidbody2D), typeof(GroundChecker))]
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce = 10f;
     
+    [SerializeField] private Rotator _rotator;
+    
     private Rigidbody2D _rigidbody;
     private GroundChecker _groundChecker;
-    private Rotator _rotator;
     
     public Vector2 LinearVelocity => _rigidbody.linearVelocity;
     public bool IsGround => _groundChecker.IsGround;
@@ -17,7 +18,6 @@ public class PlayerMover : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _groundChecker = GetComponent<GroundChecker>();
-        _rotator = GetComponent<Rotator>();
     }
     
     public void Move(float input)
