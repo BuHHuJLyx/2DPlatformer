@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(InputReader), typeof(PlayerMover))]
-[RequireComponent(typeof(Health), typeof(Attacker))]
+[RequireComponent(typeof(Health), typeof(Attacker), typeof(Vampirism))]
 [RequireComponent(typeof(Collector), typeof(Wallet))]
 public class Player : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private PlayerMover _mover;
     private Health _health;
     private Attacker _attacker;
+    private Vampirism _vampirism;
     private Collector _collector;
     private Wallet _wallet;
 
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
         _mover = GetComponent<PlayerMover>();
         _health = GetComponent<Health>();
         _attacker = GetComponent<Attacker>();
+        _vampirism = GetComponent<Vampirism>();
         _collector = GetComponent<Collector>();
         _wallet = GetComponent<Wallet>();
     }
@@ -47,6 +49,9 @@ public class Player : MonoBehaviour
 
         if (_input.GetIsAttack())
             _attacker.Attack();
+        
+        if (_input.GetIsVampirism())
+            _vampirism.TryActivate();
     }
 
     private void OnDisable()

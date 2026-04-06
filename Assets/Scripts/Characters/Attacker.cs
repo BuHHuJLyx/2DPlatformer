@@ -4,6 +4,7 @@ public class Attacker : MonoBehaviour
 {
     [SerializeField] private GameObject _attackEffectPrefab;
     [SerializeField] private Transform _attackPoint;
+    [SerializeField] private LayerMask _targetMask;
     
     [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackRange;
@@ -24,14 +25,11 @@ public class Attacker : MonoBehaviour
         
         SpawnEffect();
         
-        Collider2D[] hits = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange, _targetMask);
 
         foreach (var hit in hits)
         {
-            if (hit.gameObject == gameObject)
-                continue;
-
-            if (hit.TryGetComponent<Health>(out var health))
+            if (hit.TryGetComponent(out Health health))
                 health.TakeDamage(_attackDamage);
         }
     }
