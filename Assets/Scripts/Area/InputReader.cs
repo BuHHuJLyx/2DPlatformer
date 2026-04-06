@@ -30,6 +30,7 @@ public class InputReader : MonoBehaviour
     public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
     
     public bool GetIsAttack() => GetBoolAsTrigger(ref _isAttack);
+    
     public bool GetIsVampirism() => GetBoolAsTrigger(ref _isVampirism);
     
     private bool GetBoolAsTrigger(ref bool value)
